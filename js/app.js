@@ -1,11 +1,19 @@
-var url= window.location.href;
-var swLocation='/ProyectoPWA/sw.js'
+var swLocation = '/sw.js';
 
-if(navigator.serviceWorker){
-    if(url.includes('localhost')){
-    swLocation='/sw.js';
+if (navigator.serviceWorker) {
+    // Si estamos en GitHub Pages
+    if (!window.location.href.includes('localhost')) {
+        // Añade el path de la carpeta del proyecto
+        swLocation = window.location.pathname + 'sw.js';
     }
-    navigator.serviceWorker.register(swLocation);
+    
+    navigator.serviceWorker.register(swLocation)
+        .then(function(reg) {
+            console.log('Service Worker registrado con éxito:', reg);
+        })
+        .catch(function(err) {
+            console.error('Error al registrar Service Worker:', err);
+        });
 }
 
 
